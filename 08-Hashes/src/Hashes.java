@@ -1,17 +1,40 @@
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.util.HexFormat;
 
+public class Hashes{
 
-public String getSHA512AmbSalt(String pw, String salt)
+public String getSHA512AmbSalt(String pw, String salt)throws NoSuchAlgorithmException{
+// byte[] bytes = { 10, 31, -1 };
+// String texto = HexFormat.of().formatHex(bytes);
+byte[] bytessha512 = MessageDigest
+//MessageDigest es una clase de Java para calcular resúmenes criptográficos (hashes) de datos, como una contraseña. Por ejemplo, puede calcular un SHA-512.
+            .getInstance("SHA-512")
+            .digest((pw + salt)//une pw y salt
+            .getBytes(StandardCharsets.UTF_8));//metodo que necesita los bytes
+    
+return HexFormat.of().formatHex(bytessha512);    
+//convierte bytes a texto hexadecimal- crea formateador hexadecimal
+}
 
-public String getPBKDF2AmbSalt(String pw, String salt)
+public String getPBKDF2AmbSalt(String pw, String salt){
 
-public String forcaBruta(String alg, String hash, String salt)
+    byte[] bytespbkdf2 = MessageDigest.getInstance("PBKDF2").digest((pw+salt).getBytes(StandardCharsets.UTF_8));
 
-public String getInterval(long t1, long t2)
+return HexFormat.of().formatHex(bytespbkdf2);
+}
+
+public String forcaBruta(String alg, String hash, String salt){
+    public char[] charset = "abcdefABCDEF1234567890".toCharArray();
+return;
+}
+
+public String getInterval(long t1, long t2){}return;
 
 public static void main(String[] args) throws Exception {
     String salt = "qpoweiruañsIkdfjz";
@@ -43,4 +66,5 @@ public static void main(String[] args) throws Exception {
         System.out.printf("Temps : %s\n", h.getInterval(t1, t2));
         System.out.printf("------------------------\n\n");
     }
+}
 }
